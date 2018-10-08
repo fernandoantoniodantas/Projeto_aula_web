@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+      
+    <h:head>        
+     	<title>Login</title>
+	 	<link href="css/style.css" type="text/css" rel="stylesheet" />
+    </h:head>
+    
+    <!-- h:body é o corpo reescrito -->
+    <h:body>
+        <h:form id="form">            
+            <p:growl id="growl" showDetail="true" />        
+            <center>                
+                <p:graphicImage style="margin-top:100px; margin-bottom:20px;" value="imgs/planta.jpg" width="12%" height="12%" />
+            
+                <p:panel header="Login" style="width:300px;">
+
+                    <p:panelGrid columns="2" styleClass="semBorda">                    	
+                        <p:outputLabel value="Usuário:"/>
+                        <p:inputText value="#{usuarioSessionController.usuario.email}" required="true" requiredMessage="Informe o usuário." />
+                        <p:outputLabel value="Senha:"/>
+                        <p:password value="#{usuarioSessionController.usuario.senha}" required="true" requiredMessage="Informe a senha." />
+                    	<p:commandButton value="Entrar" icon="confirmar" action="#{usuarioSessionController.login()}" update=":form:growl" />
+                    </p:panelGrid>             
+
+                </p:panel>
+               
+            </center>
+        </h:form>
+    </h:body>
+</html>
+
