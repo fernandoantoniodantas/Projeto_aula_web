@@ -11,32 +11,33 @@ import org.primefaces.context.RequestContext;
 
 @ViewScoped
 @ManagedBean
-public class PlantaController {
-
+public class PlantaController {/*Classe de Ações de Negócios*/
     private Planta planta;
-    private List<Planta> listaPlanta;
+    private List<Planta> listaPlantas;
     private String campoBusca;
-    private String campoBuscaTipo;
-     
+    private String campoBuscaTipo;    
+    private PlantaDAO plantaDAO = new PlantaDAO();
+    
     public PlantaController() {
         planta = new Planta();
-        campoBusca = "";
-        campoBuscaTipo = "N";//N?
+        this.campoBusca = "";
+        this.campoBuscaTipo = "N";//N = nome
     }
     
     public void limparBusca() {
-        listaPlanta = null;
-        campoBusca = "";
-        campoBuscaTipo = "N";
+    	this.listaPlantas = null;
+    	this.campoBusca = "";
+    	this.campoBuscaTipo = "N";
     }
 
     public void limparCampos(){
-        listaPlanta = null;
+    	this.listaPlantas = null;
         planta = new Planta();
     }
     
+    //está sendo chamado no JSF no principal.xhtml
     public void busca(){
-        if(campoBuscaTipo.equals("N")) {
+        if(this.campoBuscaTipo.equals("N")) {
             buscaNome();
         }else{
             buscaTipo();
@@ -44,19 +45,15 @@ public class PlantaController {
     }
     
     private void buscaTipo() {
-        PlantaDAO pd = new PlantaDAO();
-        listaPlanta = pd.buscaTipo(campoBusca);
+        this.listaPlantas = plantaDAO.buscaTipo(this.campoBusca);
     }
     
-     private void buscaNome() {
-        PlantaDAO pd = new PlantaDAO();
-        listaPlanta = pd.buscaNome(campoBusca);
+    private void buscaNome() {
+        this.listaPlantas = plantaDAO.buscaNome(this.campoBusca);
     }
     
-     public void delPlanta() {
-         
-        PlantaDAO pd = new PlantaDAO();
-        boolean deletou = pd.delPlanta(planta);
+     public void delPlanta() {         
+        boolean deletou = plantaDAO.delPlanta(this.planta);
         
         if(deletou) {
             limparCampos();
@@ -69,16 +66,14 @@ public class PlantaController {
             ct.addMessage(null, msg);
         }
     }
-    /*Update*/
+
      public void altPlanta() {
-         
-        PlantaDAO pd = new PlantaDAO();
-        boolean alterou = pd.altPlanta(planta);
+        boolean alterou = plantaDAO.altPlanta(planta);
         
         if(alterou) {
             limparCampos();
             
-            RequestContext.getCurrentInstance().execute("PF('dlgAltPlanta').hide();");
+            RequestContext.getCurrentInstance().execute("PF('principalAlterPlanta').hide();");
             
             FacesMessage msg = new FacesMessage("alterado");
             FacesContext ct = FacesContext.getCurrentInstance();
@@ -91,15 +86,10 @@ public class PlantaController {
     }
     
     public void cadPlanta() {
-        
-        PlantaDAO pd = new PlantaDAO();
-        boolean cadastrou = pd.cadPlanta(planta);
-        
-        if(cadastrou) {
-            
-            limparCampos();
-            
-            RequestContext.getCurrentInstance().execute("PF('dlgCadPlanta').hide();");
+        boolean cadastrou = plantaDAO.cadPlanta(planta);        
+        if(cadastrou) {            
+            limparCampos();            
+            RequestContext.getCurrentInstance().execute("PF('principalCadPlanta').hide();");
             
             FacesMessage msg = new FacesMessage("cadastrado");
             FacesContext ct = FacesContext.getCurrentInstance();
@@ -110,29 +100,28 @@ public class PlantaController {
             ct.addMessage(null, msg);
         }
     }
-
-    public Planta getP() {
-        return planta;
+   
+    public Planta getPlanta() {
+        return this.planta;
     }
 
-    public void setP(Planta planta) {
+    public void setPlanta(Planta planta) {
         this.planta = planta;
     }
 
     public List<Planta> getListaPlanta() {
-        PlantaDAO pd = new PlantaDAO();
-        if (listaPlanta == null) {
-            listaPlanta = pd.listaPlanta();
+        if (this.listaPlantas == null) {
+        	this.listaPlantas = plantaDAO.listaPlantas();
         }
-        return listaPlanta;
+        return this.listaPlantas;
     }
 
     public void setListaPlanta(List<Planta> listaPlanta) {
-        this.listaPlanta = listaPlanta;
+        this.listaPlantas = listaPlanta;
     }
 
     public String getCampoBusca() {
-        return campoBusca;
+        return this.campoBusca;
     }
 
     public void setCampoBusca(String campoBusca) {
@@ -140,7 +129,7 @@ public class PlantaController {
     }
 
     public String getCampoBuscaTipo() {
-        return campoBuscaTipo;
+        return this.campoBuscaTipo;
     }
 
     public void setCampoBuscaTipo(String campoBuscaTipo) {

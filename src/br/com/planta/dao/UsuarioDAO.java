@@ -10,36 +10,33 @@ import java.sql.SQLException;
 public class UsuarioDAO {
     private static ConnectionFactory CONNECTION;
     private Connection conexao;
+    private Usuario user = null;
     
     public UsuarioDAO() {
     	this.CONNECTION = new ConnectionFactory();
+    	
     }
-    
-    public Usuario login(Usuario usuario) {
-        
-        conexao = CONNECTION.getConnection();
-        
-        String sql = "select * from planta.usuario where email = ? and senha = ?";
-        
-        Usuario u = null;
-        
-        try {
-            PreparedStatement ps = conexao.prepareStatement(sql);
-            ps.setString(1, usuario.getEmail());
-            ps.setString(2, usuario.getSenha());
-            ResultSet rs = ps.executeQuery();
-            
-            while(rs.next()) {
-                u = new Usuario();
-                u.setId(rs.getInt("id"));
-                u.setNome(rs.getString("nome"));
-                u.setEmail(rs.getString("email"));
-                u.setSenha(rs.getString("senha"));
-                u.setAtivo(rs.getBoolean("ativo"));
-            }
-        } catch(SQLException ex) {
-            ex.printStackTrace();
-        }
-        return u;
+    public Usuario login(Usuario usuario) {    	
+        try {       	 
+        	 conexao = CONNECTION.getConnection();
+    	   	 String sql = "select * from teste5.usuario where email = ? and senha = ?";    
+        	 PreparedStatement ps = conexao.prepareStatement(sql);        	 
+             ps.setString(1, usuario.getEmail().toUpperCase());
+             ps.setString(2, usuario.getSenha());
+             ResultSet rs = ps.executeQuery();
+             
+             while(rs.next()) {
+            	 user = new Usuario();
+                 user.setId(rs.getInt("id"));
+            	 user.setNome(rs.getString("nome"));
+            	 user.setEmail(rs.getString("email"));
+            	 user.setSenha(rs.getString("senha"));
+            	 user.setAtivo(rs.getBoolean("ativo"));
+             }
+             CONNECTION.closeConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        return user;
     }
 }

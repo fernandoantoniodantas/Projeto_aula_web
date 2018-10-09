@@ -24,21 +24,17 @@ public class UsuarioSessionController {
     }
     
     public String login() {
+        UsuarioDAO usarioDAO = new UsuarioDAO();
+        usuarioLogado = usarioDAO.login(usuario);
         
-        UsuarioDAO udao = new UsuarioDAO();
-        usuarioLogado = udao.login(usuario);
-        
-        if(usuarioLogado != null) {     
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario_session", usuarioLogado);
-            //Usuario us = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario_session");
-            
+        if(usuarioLogado != null) {
+        	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario_session", usuarioLogado);           
             return "principal.faces?faces-redirect=true";
         } else {
-             
+        	System.out.println("Erro nao logado");
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Email ou senha inválidos!");
             FacesContext ct = FacesContext.getCurrentInstance();
             ct.addMessage(null, msg);
-            
             return "";
         }
     }

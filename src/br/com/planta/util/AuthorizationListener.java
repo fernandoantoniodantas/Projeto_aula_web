@@ -33,28 +33,19 @@ public class AuthorizationListener implements PhaseListener {
                 UsuarioSessionController.timeOut();
                 if(SessionUtil.getSession() != null) {
                     SessionUtil.getSession().invalidate();
-
                     FacesContext.getCurrentInstance().getExternalContext()
                         .getSessionMap().put("sessaoExpirada", "S");
                 }
                 FacesContext.getCurrentInstance().getExternalContext().redirect("redirect.faces");
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } else {
-        	System.out.println("PÁGINA DE  LOGIN");
-           /* if(isLoginPage) {
-                System.out.println("PÁGINA DE  LOGIN");
-            } else {
-                System.out.println("NÃO É A PÁGINA DE LOGIN");
-            }*/
         }
+       
     }
 
     @Override
-    public void beforePhase(PhaseEvent event) {
-        // Nada...
-    }
+    public void beforePhase(PhaseEvent event) {}
 
     @Override
     public PhaseId getPhaseId() {
