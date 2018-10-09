@@ -7,99 +7,79 @@
 
     <h:head>
         <title>Principal</title>
-
         <link href="css/style.css" type="text/css" rel="stylesheet" />
-
     </h:head>
     <h:body>
-
         <p:idleMonitor timeout="60000">
             <p:ajax event="idle" listener="#{usuarioSessionController.timeOut}" />
 	</p:idleMonitor>
         
-        <p:dialog widgetVar="dlgCadPlanta" header="Cadastrar Planta" height="auto" width="auto" draggable="true" resizable="false"
+        <p:dialog widgetVar="principalCadPlanta" header="Cadastrar Planta" height="auto" width="auto" draggable="true" resizable="false"
                   modal="true">
             <h:form id="formCad">
                 <p:panelGrid columns="2" styleClass="semBorda">
                     <p:outputLabel value="Nome: "/>
-                    <p:inputText value="#{plantaController.p.nome}" maxlength="30" size="25" required="true" requiredMessage="insira o nome"/>
+                    <p:inputText value="#{plantaController.planta.nome}" maxlength="30" size="25" required="true" requiredMessage="insira o nome"/>
 
                     <p:outputLabel value="Tipo: "/>
-                    <p:selectOneMenu value="#{plantaController.p.tipo}" >
+                    <p:selectOneMenu value="#{plantaController.planta.tipo}" >
                         <f:selectItem itemLabel="AMBIENTE FECHADO" itemValue="AF" />
                         <f:selectItem itemLabel="JARDIM" itemValue="JA" />
                         <f:selectItem itemLabel="MEDICINAL" itemValue="ME" />
                     </p:selectOneMenu> 
 
                     <p:outputLabel value="Valor: "/>
-                    <p:inputText value="#{plantaController.p.valor}" maxlength="30" size="25" required="true" requiredMessage="insira o valor"/>
+                    <p:inputText value="#{plantaController.planta.valor}" maxlength="30" size="25" required="true" requiredMessage="insira o valor"/>
 
                 </p:panelGrid>
-
                 <p:separator />
-
                 <center>
                     <p:panelGrid columns="2" styleClass="semBorda">
                         <p:commandButton value="Cadastrar" action="#{plantaController.cadPlanta()}" update=":formCad, :formTab" icon="confirmar"/>
-                        <p:commandButton value="Fechar" onclick="PF('dlgCadPlanta').hide();" icon="cancelar"/>
+                        <p:commandButton value="Fechar" onclick="PF('principalCadPlanta').hide();" icon="cancelar"/>
                     </p:panelGrid>
                 </center>
-
-
 
             </h:form>
         </p:dialog>
 
-        <p:dialog widgetVar="dlgAltPlanta" header="Alterar Planta" height="auto" width="auto" draggable="true" resizable="false"
+        <p:dialog widgetVar="principalAlterPlanta" header="Alterar Planta" height="auto" width="auto" draggable="true" resizable="false"
             modal="true">
             <h:form id="formAlt">
                 <p:panelGrid columns="2" styleClass="semBorda">
                     <p:outputLabel value="Nome: "/>
-                    <p:inputText value="#{plantaController.p.nome}" maxlength="30" size="25" required="true" requiredMessage="insira o nome"/>
-
+                    <p:inputText value="#{plantaController.planta.nome}" maxlength="30" size="25" required="true" requiredMessage="insira o nome"/>
                     <p:outputLabel value="Tipo: "/>
-                    <p:selectOneMenu value="#{plantaController.p.tipo}">
+                    <p:selectOneMenu value="#{plantaController.planta.tipo}">
                         <f:selectItem itemLabel="AMBIENTE FECHADO" itemValue="AF" />
                         <f:selectItem itemLabel="JARDIM" itemValue="JA" />
                         <f:selectItem itemLabel="MEDICINAL" itemValue="ME" />
                     </p:selectOneMenu>
-
                     <p:outputLabel value="Valor: "/>
-                    <p:inputText value="#{plantaController.p.valor}" maxlength="30" size="25" required="true" requiredMessage="insira o valor"/>
-
+                    <p:inputText value="#{plantaController.planta.valor}" maxlength="30" size="25" required="true" requiredMessage="insira o valor"/>
                 </p:panelGrid>
-
                 <p:separator />
-
                 <center>
                     <p:panelGrid columns="2" styleClass="semBorda">
-                        <p:commandButton value="Alterar" action="#{plantaController.altPlanta()}" update=":formTab" icon="confirmar"/>
-                        <p:commandButton value="Fechar" onclick="PF('dlgAltPlanta').hide();" icon="cancelar"/>
+                        <p:commandButton value="Alterar" action="#{plantaController.altPlanta()}" update=":formAlt, :formTab" icon="confirmar"/>
+                        <p:commandButton value="Fechar" onclick="PF('principalAlterPlanta').hide();" icon="cancelar"/>
                     </p:panelGrid>
                 </center>
-
-
             </h:form>
         </p:dialog>
 
         <h:form id="formTab">
-            <p:growl id="msg"/>
-            
+            <p:growl id="msg"/>            
             <p:commandButton value="Sair" icon="cancelar" action="#{usuarioSessionController.logout()}" style="float:right;" />
-
             <h1>Gerenciar Plantas</h1>
-
             <p:separator />
-
             <br />
-
             <p:panelGrid columns="7" styleClass="semBorda">
-                <p:commandButton value="Novo" onclick="PF('dlgCadPlanta').show();" icon="novo"/>
+                <p:commandButton value="Novo" onclick="PF('principalCadPlanta').show();" icon="novo"/>
                 <p:outputLabel value="Buscar por: "/>
                 <p:selectOneMenu value="#{plantaController.campoBuscaTipo}">
                     <f:selectItem itemLabel="Nome" itemValue="N"/>
-                    <f:selectItem itemLabel="Tipo" itemValue="T"/>
-                    
+                    <f:selectItem itemLabel="Tipo" itemValue="T"/>                    
                     <p:ajax event="change" update=":formTab" />
                 </p:selectOneMenu>
 
@@ -116,16 +96,12 @@
                     <f:selectItem itemLabel="MEDICINAL" itemValue="ME" />
                 </p:selectOneMenu>
 
-
-
                 <p:commandButton value="Buscar" action="#{plantaController.busca()}" update=":formTab" icon="buscar"/>
                 <p:commandButton value="Limpar" action="#{plantaController.limparBusca()}" update=":formTab" icon="limpar"/>
                 
                 <p:commandButton value="Gerar Relatório" action="#{reportController.gerarRelatorioPlantas()}" ajax="false" />
             </p:panelGrid>
-
             <br />
-
             <p:dataTable id="tab" value="#{plantaController.listaPlanta}" var="tabela" emptyMessage="nenhuma planta cadastrada"
                          rows="5" paginator="true" paginatorPosition="bottom">
                 <p:column headerText="Id">
@@ -149,25 +125,18 @@
                 </p:column>
 
                 <p:column headerText="Ações">
-
                     <center>
-
-                        <p:commandButton onclick="PF('dlgAltPlanta').show();" update=":formTab, :formAlt" icon="alterar">
-                            <f:setPropertyActionListener value="#{tabela}" target="#{plantaController.p}" />
+                        <p:commandButton onclick="PF('principalAlterPlanta').show();" update=":formAlt" icon="alterar">
+                            <f:setPropertyActionListener value="#{tabela}" target="#{plantaController.planta}" />
                         </p:commandButton>
-
                         <p:commandButton action="#{plantaController.delPlanta()}" update=":formTab" icon="cancelar">
-                            <f:setPropertyActionListener value="#{tabela}" target="#{plantaController.p}" />
+                            <f:setPropertyActionListener value="#{tabela}" target="#{plantaController.planta}" />
                         </p:commandButton>
 
                     </center>
                 </p:column>
-
             </p:dataTable>
-
         </h:form>
-
-
     </h:body>
 </html>
 

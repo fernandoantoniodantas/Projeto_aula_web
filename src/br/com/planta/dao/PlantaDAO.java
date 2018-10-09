@@ -11,21 +11,18 @@ import java.util.List;
 
 
 public class PlantaDAO {
-	
 	private static ConnectionFactory CONNECTION;
     Connection conexao;
     
-  //  public PlantaDAO() {
-  //  	this.CONNECTION = new ConnectionFactory();
-  //  }
+    public PlantaDAO() {
+    	this.CONNECTION = new ConnectionFactory();
+    }
     
     public List<Planta> buscaTipo(String tipo){       
         try {
-        	
-        	    	
         	conexao = CONNECTION.getConnection();
         	List<Planta> lista = new ArrayList<>();
-            String sql = "select * from planta.planta where tipo = ? order by nome";
+            String sql = "select * from teste5.planta where tipo = ? order by nome";
             
             PreparedStatement ps = conexao.prepareStatement(sql);
             ps.setString(1, tipo);
@@ -49,17 +46,14 @@ public class PlantaDAO {
         return null;
     }
     
-     public List<Planta> buscaNome(String nome){     
-        
+     public List<Planta> buscaNome(String nome){   
         try {
-        	conexao = CONNECTION.getConnection();        
-            String sql = "select * from planta.planta where upper(nome) like upper(?) order by nome";
-        	
-            List<Planta> lista = new ArrayList<>();
-             
+        	conexao = CONNECTION.getConnection();
+        	List<Planta> lista = new ArrayList<>();
+            String sql = "select * from teste5.planta where upper(nome) like upper(?) order by nome";       	
+            
             PreparedStatement ps = conexao.prepareStatement(sql);
-            //ps.setString(1, "%"+nome+"%");
-            //ps.setString(1, nome);
+            ps.setString(1, "%"+nome+"%");
             ResultSet rs = ps.executeQuery();
             
             while (rs.next()) {                
@@ -79,115 +73,89 @@ public class PlantaDAO {
         return null;
     }
     
-    public boolean delPlanta(Planta p){
-        
-        conexao = ConnectionFactory.getConnection();
-        
-        String sql = "delete from planta.planta where id=?";
-        
+    public boolean delPlanta(Planta planta){               
         try {
-            PreparedStatement ps = conexao.prepareStatement(sql);
+        	conexao =  CONNECTION.getConnection();   
+            String sql = "delete from teste5.planta where id=?";
             
-            ps.setInt(1, p.getId());
-            
+            PreparedStatement ps = conexao.prepareStatement(sql);            
+            ps.setInt(1, planta.getId());            
             ps.execute();
             
+            CONNECTION.closeConnection();
             return true;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }finally{
-            try {
-                conexao.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }return false;
+        }catch (Exception e) {
+			e.printStackTrace();
+		}
+        return false;
     }
     
-    public boolean altPlanta(Planta p){
-        
-        conexao = ConnectionFactory.getConnection();
-        
-        String sql = "update planta.planta set nome=?, tipo=?, valor=? where id=?";
-        
+    /*altPlanta: método que edita dados da planta.*/
+    public boolean altPlanta(Planta planta){        
         try {
+        	conexao = CONNECTION.getConnection();      
+            String sql = "update teste5.planta set nome=?, tipo=?, valor=? where id=?";
             PreparedStatement ps = conexao.prepareStatement(sql);
-            ps.setString(1, p.getNome());
-            ps.setString(2, p.getTipo());
-            ps.setDouble(3, p.getValor());
-            ps.setInt(4, p.getId());
             
+            ps.setString(1, planta.getNome());
+            ps.setString(2, planta.getTipo());
+            ps.setDouble(3, planta.getValor());
+            ps.setInt(4, planta.getId());            
             ps.executeUpdate();
             
+            CONNECTION.closeConnection();
             return true;
             
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }finally{
-            try {
-                conexao.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }return false;
+        }catch (Exception e) {
+			e.printStackTrace();
+		}
+        return false;
     }
     
-    public boolean cadPlanta(Planta p){
-        
-        conexao = ConnectionFactory.getConnection();
-        
-        String sql = "insert into planta.planta (nome, tipo, valor) values (?,?,?)";
-        
+    /*altPlanta: método que cadastra uma planta.*/
+    public boolean cadPlanta(Planta planta){
         try {
+        	conexao = CONNECTION.getConnection();
+            String sql = "insert into teste5.planta (nome, tipo, valor) values (?,?,?)";
             PreparedStatement ps = conexao.prepareStatement(sql);
-            ps.setString(1, p.getNome());
-            ps.setString(2, p.getTipo());
-            ps.setDouble(3, p.getValor());
             
+            ps.setString(1, planta.getNome());
+            ps.setString(2, planta.getTipo());
+            ps.setDouble(3, planta.getValor());
             ps.execute();
             
+            CONNECTION.closeConnection();            
             return true;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }finally{
-            try {
-                conexao.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }return false;
+        }catch (Exception e) {
+			e.printStackTrace();
+		}
+        return false;
     }
     
-    public List<Planta> listaPlanta(){
-        
-        conexao = ConnectionFactory.getConnection();
-        
-        String sql = "select * from planta.planta order by nome";
-        
-        List<Planta> lista = new ArrayList<>();
-        
+    /*listaPlantas: lista todas as plantas cadastradas.*/
+    public List<Planta> listaPlantas(){
         try {
+        	conexao = CONNECTION.getConnection();
+            List<Planta> lista = new ArrayList<>();
+            String sql = "select * from teste5.planta order by nome";
+            
             PreparedStatement ps = conexao.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {                
-                Planta p = new Planta();
-                p.setId(rs.getInt("id"));
-                p.setNome(rs.getString("nome"));
-                p.setTipo(rs.getString("tipo"));
-                p.setValor(rs.getDouble("valor"));
-                
-                lista.add(p);
-            }
             
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }finally{
-            try {
-                conexao.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+            while (rs.next()) {                
+                Planta planta = new Planta();
+                planta.setId(rs.getInt("id"));
+                planta.setNome(rs.getString("nome"));
+                planta.setTipo(rs.getString("tipo"));
+                planta.setValor(rs.getDouble("valor"));
+                lista.add(planta);               
             }
-        }return lista;
+            CONNECTION.closeConnection();
+            return lista;
+        } catch (Exception e) {
+			e.printStackTrace();
+		}        
+        return null;
     }
     
 }
