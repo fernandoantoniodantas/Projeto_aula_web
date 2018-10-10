@@ -22,7 +22,7 @@ public class PlantaDAO {
         try {
         	conexao = CONNECTION.getConnection();
         	List<Planta> lista = new ArrayList<>();
-            String sql = "select * from teste5.planta where tipo = ? order by nome";
+        	String sql = "select * from planta.planta where tipo = ? order by nome";
             
             PreparedStatement ps = conexao.prepareStatement(sql);
             ps.setString(1, tipo);
@@ -50,7 +50,7 @@ public class PlantaDAO {
         try {
         	conexao = CONNECTION.getConnection();
         	List<Planta> lista = new ArrayList<>();
-            String sql = "select * from teste5.planta where upper(nome) like upper(?) order by nome";       	
+        	String sql = "select * from planta.planta where upper(nome) like upper(?) order by nome";       	
             
             PreparedStatement ps = conexao.prepareStatement(sql);
             ps.setString(1, "%"+nome+"%");
@@ -76,7 +76,7 @@ public class PlantaDAO {
     public boolean delPlanta(Planta planta){               
         try {
         	conexao =  CONNECTION.getConnection();   
-            String sql = "delete from teste5.planta where id=?";
+        	String sql = "delete from planta.planta where id=?";
             
             PreparedStatement ps = conexao.prepareStatement(sql);            
             ps.setInt(1, planta.getId());            
@@ -94,7 +94,7 @@ public class PlantaDAO {
     public boolean altPlanta(Planta planta){        
         try {
         	conexao = CONNECTION.getConnection();      
-            String sql = "update teste5.planta set nome=?, tipo=?, valor=? where id=?";
+        	String sql = "update planta.planta set nome=?, tipo=?, valor=? where id=?";
             PreparedStatement ps = conexao.prepareStatement(sql);
             
             ps.setString(1, planta.getNome());
@@ -116,7 +116,7 @@ public class PlantaDAO {
     public boolean cadPlanta(Planta planta){
         try {
         	conexao = CONNECTION.getConnection();
-            String sql = "insert into teste5.planta (nome, tipo, valor) values (?,?,?)";
+        	String sql = "insert into planta.planta (nome, tipo, valor) values (?,?,?)";
             PreparedStatement ps = conexao.prepareStatement(sql);
             
             ps.setString(1, planta.getNome());
@@ -137,7 +137,7 @@ public class PlantaDAO {
         try {
         	conexao = CONNECTION.getConnection();
             List<Planta> lista = new ArrayList<>();
-            String sql = "select * from teste5.planta order by nome";
+            String sql = "select * from planta.planta order by nome";
             
             PreparedStatement ps = conexao.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();

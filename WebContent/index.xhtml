@@ -4,25 +4,17 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-      
-    <!-- :h significa que irá registrar o nome da biblioteca -->
-    <!-- O JSF reescreve algumas tags do html-->
-    <!-- h:head é o head reescrito -->
     <h:head>        
      	<title>Login</title>
 	 	<link href="css/style.css" type="text/css" rel="stylesheet" />
     </h:head>
     
-    <!-- h:body é o corpo reescrito -->
     <h:body>
         <h:form id="form">            
             <p:growl id="growl" showDetail="true" />        
             <center>                
                 <p:graphicImage style="margin-top:100px; margin-bottom:20px;" value="imgs/planta.jpg" width="12%" height="12%" />
-            
                 <p:panel header="Login" style="width:300px;">
-				<!-- p:outputLabel: Uma das propriedades mais importantes é o value, onde será exibido
-                    	qual texto aparecerá como rótulo -->
                     <p:panelGrid columns="2" styleClass="semBorda">                    	
                         <p:outputLabel value="E-mail:"/>
                         <p:inputText value="#{usuarioSessionController.usuario.email}" required="true" requiredMessage="Informe o e-mail." />
@@ -31,8 +23,6 @@
                     	<p:commandButton value="Entrar" icon="confirmar" action="#{usuarioSessionController.login()}" update=":form:growl" />
                     </p:panelGrid>
                 </p:panel>
-                <!-- action: serve para navegar e invocar métodos do java
-	               commandLink:  serve para navegar e invocar algo do java-->
             </center>
         </h:form>
     </h:body>

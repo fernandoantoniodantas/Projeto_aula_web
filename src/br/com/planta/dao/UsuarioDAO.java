@@ -19,7 +19,7 @@ public class UsuarioDAO {
     public Usuario login(Usuario usuario) {    	
         try {       	 
         	 conexao = CONNECTION.getConnection();
-    	   	 String sql = "select * from teste5.usuario where email = ? and senha = ?";    
+        	 String sql = "select * from planta.usuario where email = ? and senha = ?";    
         	 PreparedStatement ps = conexao.prepareStatement(sql);        	 
              ps.setString(1, usuario.getEmail().toUpperCase());
              ps.setString(2, usuario.getSenha());
