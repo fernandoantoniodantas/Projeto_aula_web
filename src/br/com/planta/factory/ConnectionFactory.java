@@ -8,7 +8,7 @@ public class ConnectionFactory {
 
 	private static Connection CONNECTION = null;	
 	private static final String USER = "postgres";
-	private static final String PASS = "post";
+	private static final String PASS = "";
 	private static final String URL = "localhost:5432/aula";
 	
 	public static Connection getConnection() {		
