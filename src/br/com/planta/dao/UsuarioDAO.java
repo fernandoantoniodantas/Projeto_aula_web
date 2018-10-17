@@ -22,7 +22,7 @@ public class UsuarioDAO {
         	 String sql = "select * from planta.usuario where email = ? and senha = ?";    
         	 PreparedStatement ps = conexao.prepareStatement(sql);        	 
              ps.setString(1, usuario.getEmail().toUpperCase());
-             ps.setString(2, usuario.getSenha());
+             ps.setString(2, usuario.getSenha().toUpperCase());
              ResultSet rs = ps.executeQuery();
              
              while(rs.next()) {
@@ -38,5 +38,23 @@ public class UsuarioDAO {
 			e.printStackTrace();
 		}
         return user;
+    }
+    
+    public boolean cadastrar(Usuario usuario) {
+    	try {
+			conexao = CONNECTION.getConnection();
+			String sql = "insert into planta.usuario (nome, email, senha) VALUES (?,?,?)";			
+			PreparedStatement ps = conexao.prepareStatement(sql);
+			
+			ps.setString(1, usuario.getNome().toUpperCase());
+			ps.setString(2, usuario.getEmail().toUpperCase());
+			ps.setString(3, usuario.getSenha().toUpperCase());
+			ps.execute();
+			return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return false;
     }
 }

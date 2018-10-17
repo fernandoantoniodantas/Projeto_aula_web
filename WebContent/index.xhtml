@@ -7,9 +7,29 @@
     <h:head>        
      	<title>Login</title>
 	 	<link href="css/style.css" type="text/css" rel="stylesheet" />
-    </h:head>
-    
+    </h:head>    
     <h:body>
+    	<p:dialog widgetVar="indexCadUsuario" header="Cadastrar Usuário" height="auto" width="auto" draggable="true" resizable="false"  modal="true">
+    		<h:form id="formCad">
+    			<h:panelGrid styleClass="semBorda">
+    				<p:outputLabel value="Nome:"/>
+    				<p:inputText value="#{usuarioSessionController.usuario.nome}" maxlength="10" size="25" required="true" requiredMessage="Insira o nome."/>
+    				
+    				<p:outputLabel value="E-mail:"/>
+    				<p:inputText value="#{usuarioSessionController.usuario.email}" maxlength="10" size="25" required="true" requiredMessage="Insira o e-mail."/>
+    				
+    				<p:outputLabel value="Senha:"/>
+    				<p:password value="#{usuarioSessionController.usuario.senha}" maxlength="8" size="25" required="true" requiredMessage="Informe a senha."/>
+    			</h:panelGrid>
+    			<p:separator />
+    			<center>
+    				<p:panelGrid columns="1" styleClass="semBorda">
+    					<p:commandButton value="Cadastrar" update=":formCad, :form" icon="confirmar" action="#{usuarioSessionController.cadastrar()}"/>
+    				</p:panelGrid>
+    			</center>
+    		</h:form>
+    	</p:dialog> 
+    
         <h:form id="form">            
             <p:growl id="growl" showDetail="true" />        
             <center>                
@@ -20,8 +40,10 @@
                         <p:inputText value="#{usuarioSessionController.usuario.email}" required="true" requiredMessage="Informe o e-mail." />
                         <p:outputLabel value="Senha:"/>
                         <p:password value="#{usuarioSessionController.usuario.senha}" required="true" requiredMessage="Informe a senha." />
-                    	<p:commandButton value="Entrar" icon="confirmar" action="#{usuarioSessionController.login()}" update=":form:growl" />
                     </p:panelGrid>
+                    <p:separator/>                    
+                    <p:commandButton value="Entrar" icon="confirmar" action="#{usuarioSessionController.login()}" update="growl"/>
+                    <p:commandButton value="Cadastrar" onclick="PF('indexCadUsuario').show();" icon="novo" update="growl, :formCad"/>
                 </p:panel>
             </center>
         </h:form>

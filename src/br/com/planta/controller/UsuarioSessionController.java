@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
+
 @SessionScoped
 @ManagedBean
 public class UsuarioSessionController {
@@ -16,6 +18,9 @@ public class UsuarioSessionController {
     private Usuario usuario;
     private Usuario usuarioLogado;
     private String sessaoExpirada;
+    private FacesMessage msg;
+    private FacesContext ct;
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     public UsuarioSessionController() {
         usuario = new Usuario();
@@ -24,18 +29,30 @@ public class UsuarioSessionController {
     }
     
     public String login() {
-        UsuarioDAO usarioDAO = new UsuarioDAO();
-        usuarioLogado = usarioDAO.login(usuario);
+        usuarioDAO = new UsuarioDAO();
+        usuarioLogado = usuarioDAO.login(usuario);
+        ct = FacesContext.getCurrentInstance();
         
         if(usuarioLogado != null) {
-        	FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario_session", usuarioLogado);           
+        	ct.getExternalContext().getSessionMap().put("usuario_session", usuarioLogado);           
             return "principal.faces?faces-redirect=true";
         } else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Email ou senha inválidos!");
-            FacesContext ct = FacesContext.getCurrentInstance();
+        	msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Email ou Senha inválido(a)!");
             ct.addMessage(null, msg);
             return "";
         }
+    }
+    
+    public void cadastrar() {    	
+    	boolean cadastrou = usuarioDAO.cadastrar(usuario);	
+    	if(cadastrou) {
+    		RequestContext.getCurrentInstance().execute("PF('indexCadUsuario').hide();");
+    		msg = new FacesMessage("Usuário(a) Cadastrado(a)!");
+    	}else {
+    		msg = new FacesMessage("Erro ao Cadastrar Usuário(a)!");
+    	} 
+    	ct = FacesContext.getCurrentInstance();
+		ct.addMessage(null, msg);
     }
     
     public static void timeOut() throws IOException {
@@ -49,7 +66,7 @@ public class UsuarioSessionController {
 
     public String logout() {
         SessionUtil.getSession().invalidate();
-        return "/redirect.faces?faces-redirect=true";
+        return "redirect.faces?faces-redirect=true";
     }
 
     public Usuario getUsuario() {
@@ -69,7 +86,8 @@ public class UsuarioSessionController {
     }
     
     public String getSessaoExpirada() {
-        sessaoExpirada = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sessaoExpirada");
+    	ct = FacesContext.getCurrentInstance();
+        sessaoExpirada = (String) ct.getExternalContext().getSessionMap().get("sessaoExpirada");
         return sessaoExpirada;
     }
 }

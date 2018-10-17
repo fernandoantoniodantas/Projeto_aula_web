@@ -15,7 +15,9 @@ public class PlantaController {/*Classe de Ações de Negócios*/
     private Planta planta;
     private List<Planta> listaPlantas;
     private String campoBusca;
-    private String campoBuscaTipo;    
+    private String campoBuscaTipo;
+    private FacesMessage msg;
+    private FacesContext ct;
     private PlantaDAO plantaDAO = new PlantaDAO();
     
     public PlantaController() {
@@ -53,52 +55,38 @@ public class PlantaController {/*Classe de Ações de Negócios*/
     }
     
      public void delPlanta() {         
-        boolean deletou = plantaDAO.delPlanta(this.planta);
-        
+        boolean deletou = plantaDAO.delPlanta(this.planta);        
         if(deletou) {
             limparCampos();
-            FacesMessage msg = new FacesMessage("deletado");
-            FacesContext ct = FacesContext.getCurrentInstance();
-            ct.addMessage(null, msg);
-        } else {
-            FacesMessage msg = new FacesMessage("erro ao deletar");
-            FacesContext ct = FacesContext.getCurrentInstance();
-            ct.addMessage(null, msg);
-        }
+            msg = new FacesMessage("Planta Removida!");
+        } else
+            msg = new FacesMessage("Erro ao Remover Planta!");
+        ct = FacesContext.getCurrentInstance();
+        ct.addMessage(null, msg);
     }
 
      public void altPlanta() {
-        boolean alterou = plantaDAO.altPlanta(planta);
-        
+        boolean alterou = plantaDAO.altPlanta(planta);        
         if(alterou) {
-            limparCampos();
-            
+            limparCampos();            
             RequestContext.getCurrentInstance().execute("PF('principalAlterPlanta').hide();");
-            
-            FacesMessage msg = new FacesMessage("alterado");
-            FacesContext ct = FacesContext.getCurrentInstance();
-            ct.addMessage(null, msg);
-        } else {
-            FacesMessage msg = new FacesMessage("erro ao alterar");
-            FacesContext ct = FacesContext.getCurrentInstance();
-            ct.addMessage(null, msg);
-        }
+            msg = new FacesMessage("Alterado com Sucesso!");
+        } else
+        	msg = new FacesMessage("Erro ao Alterar!");
+        ct = FacesContext.getCurrentInstance();
+        ct.addMessage(null, msg);
     }
     
     public void cadPlanta() {
         boolean cadastrou = plantaDAO.cadPlanta(planta);        
         if(cadastrou) {            
             limparCampos();            
-            RequestContext.getCurrentInstance().execute("PF('principalCadPlanta').hide();");
-            
-            FacesMessage msg = new FacesMessage("cadastrado");
-            FacesContext ct = FacesContext.getCurrentInstance();
-            ct.addMessage(null, msg);
-        } else {
-            FacesMessage msg = new FacesMessage("erro ao cadastrar");
-            FacesContext ct = FacesContext.getCurrentInstance();
-            ct.addMessage(null, msg);
-        }
+            RequestContext.getCurrentInstance().execute("PF('principalCadPlanta').hide();");            
+            msg = new FacesMessage("Planta Cadastrada!");
+        } else
+            msg = new FacesMessage("Erro ao Cadastrar Planta!");
+        ct = FacesContext.getCurrentInstance();
+        ct.addMessage(null, msg);
     }
    
     public Planta getPlanta() {

@@ -112,7 +112,7 @@ public class PlantaDAO {
         return false;
     }
     
-    /*altPlanta: método que cadastra uma planta.*/
+    /*cadPlanta: método que cadastra uma planta.*/
     public boolean cadPlanta(Planta planta){
         try {
         	conexao = CONNECTION.getConnection();

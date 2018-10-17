@@ -102,7 +102,7 @@
                 <p:commandButton value="Gerar Relatório" action="#{reportController.gerarRelatorioPlantas()}" ajax="false" />
             </p:panelGrid>
             <br />
-            <p:dataTable id="tab" value="#{plantaController.listaPlanta}" var="tabela" emptyMessage="nenhuma planta cadastrada"
+            <p:dataTable id="tab" value="#{plantaController.listaPlanta}" var="tabela" emptyMessage="Nenhuma planta cadastrada!"
                          rows="5" paginator="true" paginatorPosition="bottom">
                 <p:column headerText="Id">
                     <p:outputLabel value="#{tabela.id}"/>

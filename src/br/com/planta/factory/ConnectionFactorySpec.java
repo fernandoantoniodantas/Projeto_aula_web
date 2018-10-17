@@ -15,7 +15,7 @@ public class ConnectionFactorySpec {
 	public static void main(String args []) throws SQLException{
 		try {
 			Connection connection = CONNECTION.getConnection();
-			PreparedStatement ps = connection.prepareStatement("select * from teste5.planta order by nome");
+			PreparedStatement ps = connection.prepareStatement("select * from planta.usuario order by nome");
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
