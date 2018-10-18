@@ -46,10 +46,11 @@ public class UsuarioSessionController {
     public void cadastrar() {    	
     	boolean cadastrou = usuarioDAO.cadastrar(usuario);	
     	if(cadastrou) {
+    		setUsuario(new Usuario());
     		RequestContext.getCurrentInstance().execute("PF('indexCadUsuario').hide();");
     		msg = new FacesMessage("Usuário(a) Cadastrado(a)!");
     	}else {
-    		msg = new FacesMessage("Erro ao Cadastrar Usuário(a)!");
+    		msg = new FacesMessage("E-mail Já Existe!");
     	} 
     	ct = FacesContext.getCurrentInstance();
 		ct.addMessage(null, msg);

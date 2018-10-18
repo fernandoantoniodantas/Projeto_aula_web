@@ -16,7 +16,7 @@ public class UsuarioDAO {
     	this.CONNECTION = new ConnectionFactory();
     	
     }
-    public Usuario login(Usuario usuario) {    	
+    public Usuario login(Usuario usuario){    	
         try {       	 
         	 conexao = CONNECTION.getConnection();
         	 String sql = "select * from planta.usuario where email = ? and senha = ?";    
@@ -40,7 +40,7 @@ public class UsuarioDAO {
         return user;
     }
     
-    public boolean cadastrar(Usuario usuario) {
+    public boolean cadastrar(Usuario usuario){
     	try {
 			conexao = CONNECTION.getConnection();
 			String sql = "insert into planta.usuario (nome, email, senha) VALUES (?,?,?)";			

@@ -24,7 +24,7 @@
     			<p:separator />
     			<center>
     				<p:panelGrid columns="1" styleClass="semBorda">
-    					<p:commandButton value="Cadastrar" update=":formCad, :form" icon="confirmar" action="#{usuarioSessionController.cadastrar()}"/>
+    					<p:commandButton value="Cadastrar" action="#{usuarioSessionController.cadastrar()}" update=":formCad, :form" icon="confirmar"/>
     				</p:panelGrid>
     			</center>
     		</h:form>
@@ -43,7 +43,7 @@
                     </p:panelGrid>
                     <p:separator/>                    
                     <p:commandButton value="Entrar" icon="confirmar" action="#{usuarioSessionController.login()}" update="growl"/>
-                    <p:commandButton value="Cadastrar" onclick="PF('indexCadUsuario').show();" icon="novo" update="growl, :formCad"/>
+                    <p:commandButton value="Cadastrar" onclick="PF('indexCadUsuario').show();" icon="novo"/>
                 </p:panel>
             </center>
         </h:form>
