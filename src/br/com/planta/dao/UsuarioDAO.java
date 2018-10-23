@@ -19,7 +19,7 @@ public class UsuarioDAO {
     public Usuario login(Usuario usuario){    	
         try {       	 
         	 conexao = CONNECTION.getConnection();
-        	 String sql = "select * from planta.usuario where email = ? and senha = ?";    
+        	 String sql = "select * from planta.usuario where email = ? and senha = ?;";    
         	 PreparedStatement ps = conexao.prepareStatement(sql);        	 
              ps.setString(1, usuario.getEmail().toUpperCase());
              ps.setString(2, usuario.getSenha().toUpperCase());
@@ -43,15 +43,32 @@ public class UsuarioDAO {
     public boolean cadastrar(Usuario usuario){
     	try {
 			conexao = CONNECTION.getConnection();
-			String sql = "insert into planta.usuario (nome, email, senha) VALUES (?,?,?)";			
+			String sql = "insert into planta.usuario (nome, email, senha) VALUES (?,?,?);";			
 			PreparedStatement ps = conexao.prepareStatement(sql);
 			
 			ps.setString(1, usuario.getNome().toUpperCase());
 			ps.setString(2, usuario.getEmail().toUpperCase());
 			ps.setString(3, usuario.getSenha().toUpperCase());
 			ps.execute();
-			return true;
+			CONNECTION.closeConnection();
+			return true;			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return false;
+    }
+    
+    public boolean excluir(Usuario usuario) {
+    	try {
+			conexao = CONNECTION.getConnection();
+			String sql = "delete from planta.usuario where id = ?";
+			PreparedStatement ps = conexao.prepareStatement(sql);
 			
+			ps.setInt(1, usuario.getId());			
+			ps.execute();
+			
+			CONNECTION.closeConnection();
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

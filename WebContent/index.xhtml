@@ -13,18 +13,18 @@
     		<h:form id="formCad">
     			<h:panelGrid styleClass="semBorda">
     				<p:outputLabel value="Nome:"/>
-    				<p:inputText value="#{usuarioSessionController.usuario.nome}" maxlength="10" size="25" required="true" requiredMessage="Insira o nome."/>
+    				<p:inputText value="#{usuarioController.usuario.nome}" maxlength="10" size="25" required="true" requiredMessage="Insira o nome."/>
     				
     				<p:outputLabel value="E-mail:"/>
-    				<p:inputText value="#{usuarioSessionController.usuario.email}" maxlength="10" size="25" required="true" requiredMessage="Insira o e-mail."/>
+    				<p:inputText value="#{usuarioController.usuario.email}" maxlength="10" size="25" required="true" requiredMessage="Insira o e-mail."/>
     				
     				<p:outputLabel value="Senha:"/>
-    				<p:password value="#{usuarioSessionController.usuario.senha}" maxlength="8" size="25" required="true" requiredMessage="Informe a senha."/>
+    				<p:password value="#{usuarioController.usuario.senha}" maxlength="8" size="25" required="true" requiredMessage="Informe a senha."/>
     			</h:panelGrid>
     			<p:separator />
     			<center>
     				<p:panelGrid columns="1" styleClass="semBorda">
-    					<p:commandButton value="Cadastrar" action="#{usuarioSessionController.cadastrar()}" update=":formCad, :form" icon="confirmar"/>
+    					<p:commandButton value="Cadastrar" action="#{usuarioController.cadastrar()}" update=":formCad, :form" icon="confirmar"/>
     				</p:panelGrid>
     			</center>
     		</h:form>
@@ -37,13 +37,13 @@
                 <p:panel header="Login" style="width:300px;">
                     <p:panelGrid columns="2" styleClass="semBorda">                    	
                         <p:outputLabel value="E-mail:"/>
-                        <p:inputText value="#{usuarioSessionController.usuario.email}" required="true" requiredMessage="Informe o e-mail." />
+                        <p:inputText value="#{usuarioController.usuario.email}" required="true" requiredMessage="Informe o e-mail." />
                         <p:outputLabel value="Senha:"/>
-                        <p:password value="#{usuarioSessionController.usuario.senha}" required="true" requiredMessage="Informe a senha." />
+                        <p:password value="#{usuarioController.usuario.senha}" required="true" requiredMessage="Informe a senha." />
                     </p:panelGrid>
                     <p:separator/>                    
-                    <p:commandButton value="Entrar" icon="confirmar" action="#{usuarioSessionController.login()}" update="growl"/>
-                    <p:commandButton value="Cadastrar" onclick="PF('indexCadUsuario').show();" icon="novo"/>
+                    <p:commandButton value="Entrar" icon="confirmar" action="#{usuarioController.login()}" update="growl"/>
+                    <p:commandButton value="Cadastrar" onclick="PF('indexCadUsuario').show();" icon="novo" immediate="true"/>
                 </p:panel>
             </center>
         </h:form>

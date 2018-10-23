@@ -1,6 +1,6 @@
 package br.com.planta.util;
 
-import br.com.planta.controller.UsuarioSessionController;
+import br.com.planta.controller.UsuarioController;
 import br.com.planta.model.Usuario;
 import java.io.IOException;
 import javax.faces.context.FacesContext;
@@ -30,7 +30,7 @@ public class AuthorizationListener implements PhaseListener {
         // Redireciona para a página de login quando a sessão expira.
         if(!isLoginPage && usuario == null) {
             try {
-                UsuarioSessionController.timeOut();
+                UsuarioController.timeOut();
                 if(SessionUtil.getSession() != null) {
                     SessionUtil.getSession().invalidate();
                     FacesContext.getCurrentInstance().getExternalContext()

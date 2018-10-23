@@ -58,11 +58,11 @@ public class PlantaController {/*Classe de Ações de Negócios*/
         boolean deletou = plantaDAO.delPlanta(this.planta);        
         if(deletou) {
             limparCampos();
-            msg = new FacesMessage("Planta Removida!");
+            this.msg = new FacesMessage("Planta Removida!");
         } else
-            msg = new FacesMessage("Erro ao Remover Planta!");
-        ct = FacesContext.getCurrentInstance();
-        ct.addMessage(null, msg);
+        	this.msg = new FacesMessage("Erro ao Remover Planta!");
+        this.ct = FacesContext.getCurrentInstance();
+        this.ct.addMessage(null, this.msg);
     }
 
      public void altPlanta() {
@@ -70,11 +70,11 @@ public class PlantaController {/*Classe de Ações de Negócios*/
         if(alterou) {
             limparCampos();            
             RequestContext.getCurrentInstance().execute("PF('principalAlterPlanta').hide();");
-            msg = new FacesMessage("Alterado com Sucesso!");
+            this.msg = new FacesMessage("Alterado com Sucesso!");
         } else
-        	msg = new FacesMessage("Erro ao Alterar!");
-        ct = FacesContext.getCurrentInstance();
-        ct.addMessage(null, msg);
+        	this.msg = new FacesMessage("Erro ao Alterar!");
+        this.ct = FacesContext.getCurrentInstance();
+        this.ct.addMessage(null, this.msg);
     }
     
     public void cadPlanta() {
@@ -82,11 +82,11 @@ public class PlantaController {/*Classe de Ações de Negócios*/
         if(cadastrou) {            
             limparCampos();            
             RequestContext.getCurrentInstance().execute("PF('principalCadPlanta').hide();");            
-            msg = new FacesMessage("Planta Cadastrada!");
+            this.msg = new FacesMessage("Planta Cadastrada!");
         } else
-            msg = new FacesMessage("Erro ao Cadastrar Planta!");
-        ct = FacesContext.getCurrentInstance();
-        ct.addMessage(null, msg);
+        	this.msg = new FacesMessage("Erro ao Cadastrar Planta!");
+        this.ct = FacesContext.getCurrentInstance();
+        this.ct.addMessage(null, this.msg);
     }
    
     public Planta getPlanta() {

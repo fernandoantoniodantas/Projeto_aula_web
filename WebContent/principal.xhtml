@@ -11,8 +11,8 @@
     </h:head>
     <h:body>
         <p:idleMonitor timeout="60000">
-            <p:ajax event="idle" listener="#{usuarioSessionController.timeOut}" />
-	</p:idleMonitor>
+            <p:ajax event="idle" listener="#{usuarioController.timeOut}" />
+		</p:idleMonitor>
         
         <p:dialog widgetVar="principalCadPlanta" header="Cadastrar Planta" height="auto" width="auto" draggable="true" resizable="false"
                   modal="true">
@@ -66,11 +66,21 @@
                     </p:panelGrid>
                 </center>
             </h:form>
-        </p:dialog>
-
+        </p:dialog>		
+		
         <h:form id="formTab">
-            <p:growl id="msg"/>            
-            <p:commandButton value="Sair" icon="cancelar" action="#{usuarioSessionController.logout()}" style="float:right;" />
+            <p:growl id="msg" showDetail="true"/>
+
+            <p:commandButton  id="excluirConta" value="Excluir Conta" icon="cancelar" action="#{usuarioController.excluir()}" update="msg" style="float:right;">
+		        <p:confirm header="Confirmação" message="Tem certeza?" icon="alterar" />
+		    </p:commandButton>
+		 
+			<p:confirmDialog global="true">
+			     <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="confirmar"/> 
+			     <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="cancelar" />
+			</p:confirmDialog>	            
+                                    
+            <p:commandButton value="Sair" icon="cancelar" style="float:right;"/>
             <h1>Gerenciar Plantas</h1>
             <p:separator />
             <br />
