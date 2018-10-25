@@ -71,16 +71,16 @@
         <h:form id="formTab">
             <p:growl id="msg" showDetail="true"/>
 
-            <p:commandButton  id="excluirConta" value="Excluir Conta" icon="cancelar" action="#{usuarioController.excluir()}" update="msg" style="float:right;">
+            <p:commandButton  id="excluirConta" value="Excluir Conta" icon="cancelar" actionListener="#{usuarioController.excluir()}" action="index" update="msg" style="float:right;">
 		        <p:confirm header="Confirmação" message="Tem certeza?" icon="alterar" />
 		    </p:commandButton>
 		 
-			<p:confirmDialog global="true">
+			<p:confirmDialog global="true" widgetVar="dlgExcluirConta">
 			     <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="confirmar"/> 
 			     <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="cancelar" />
 			</p:confirmDialog>	            
                                     
-            <p:commandButton value="Sair" icon="cancelar" style="float:right;"/>
+            <p:commandButton value="Sair" icon="cancelar" style="float:right;" action="#{usuarioController.logout()}"/>
             <h1>Gerenciar Plantas</h1>
             <p:separator />
             <br />

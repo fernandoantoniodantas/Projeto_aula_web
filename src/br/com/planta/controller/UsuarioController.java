@@ -8,6 +8,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
 import org.primefaces.context.RequestContext;
 
 @SessionScoped
@@ -55,31 +57,27 @@ public class UsuarioController {
     	this.ct.addMessage(null, this.msg);
     }
     
-    public String excluir() {
+    public void excluir() {
     	boolean excluiu = usuarioDAO.excluir(usuarioLogado);
     	if(excluiu) {
     		this.msg = new FacesMessage("Usuário(a) Removido(a)!");
+    		setUsuarioLogado(usuario);
     	}else {
     		this.msg = new FacesMessage("Erro ao Excluir Usuário(a)!"); 
     	}
-    	usuarioLogado = usuario;
     	this.ct = FacesContext.getCurrentInstance();
     	this.ct.addMessage(null, this.msg);
-    	return "redirect.faces?faces-redirect=true";
     }
     
     public static void timeOut() throws IOException {
         if(SessionUtil.getSession() != null) {
             SessionUtil.getSession().invalidate();
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sessaoExpirada", "S");
-        } else {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/redirect.faces");
         }
     }
 
     public String logout() {
         SessionUtil.getSession().invalidate();
-        return "redirect.faces?faces-redirect=true";
+        return "/index.faces?faces-redirect=true";
     }
 
     public Usuario getUsuario() {
